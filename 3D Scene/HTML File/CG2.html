@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Computer Graphics Assignment 2</title>
+		<style>
+		.c1{
+			width : 250px;
+			height : 450px;
+		
+		}
+		.c2{
+			width : 650px;
+			height : 450px;
+			padding :50px;
+		
+		}
+		.column{
+			float : left;
+			width : 32%;
+			padding : 10px;
+		}
+		
+		.row :: after{
+			content : "";
+			display : table;
+			clear : both;
+		
+		}
+		</style>
+		
+	</head>
+	
+	<body text="black">
+	<h1 align ="center" >COMPUTER GRAPHICS ASSIGNMENT 2</h1>
+		<p align="center" >BY</p>
+		<p align="center" >ABHISHEK KUMAR</p>
+		<p align="center" >SHUBHAM ASOPA</p>
+		<p align="center" ><h2 align ="center"><u>Creating a 3D Scene Using OpenGL Transformations,
+		matrix stack operations and 3D viewing pipeline</u></h2></p>
+		
+	<h2 align ="left">Introduction</h2>
+	<p>
+		In this Assignment we have tried to create a 3D scene of an Auditorium using OpenGL Transformations,
+		matrix stack operations, and 3D viewing pipeline. We have also used Blender to create objects like <b>Speakers, Mic and
+		Podium</b> and then exported them into our scene. 
+	</p>
+	
+	
+	<h2 align ="left">Classes Used And Their Brief Description</h2>
+	 <h3>
+		We used various classes and functions to make our code look more organised and easy to understand. Here
+		are all the classes that we used to make this Auditorium and a brief description about them.
+	 </h3>
+	 
+	 <ul>
+		<li><h4>Audi Class : </h4> This class creates the basic structure of the auditorium including all the walls, the entrance and the stage
+		of the Auditorium.
+		</li>
+		<li>
+		<h4>Blender_imp Class : </h4> This Class is used to import all the blender objects into the Auditorium. It includes
+		functions like make_speakers(), make_podium() and make_mic().
+		</li>
+		<li><h4>Chair Class :</h4> This Class is used to make the seats of the Auditorium.</li> 
+		<li><h4>Exitgate Class : </h4> This Class makes the Exits of the auditorium.</li>
+		<li><h4>Light Class : </h4> This Class makes the Ceiling lights of the Auditorium.</li>
+		<li><h4>Reader Class : </h4>This Class is responsible for reading the object files created by blender and then
+			finally drawing these objects using glBegin(GL_TRIANGLE)function.
+		</li>
+		
+		<li>
+			<h4>Cuboid Class : </h4> This Class makes the Cubes, Cuboids for the scene.
+		
+		</li>
+		
+		<li><h4>Stair Class : </h4> This Class makes the floor steps of the auditorium.</li>
+	 </ul>
+	 
+	 <h2>Controls Of The Scene</h2>
+		
+		<ul>
+			<li><b>'W' : </b>Rotate The camera about X-axis in Counter-Clockwise Sense</li>
+			<li><b>'S' : </b>Rotate The camera about X-axis in Clockwise Sense</li>
+			<li><b>'A' : </b>Rotate The camera about Y-axis in Counter-Clockwise Sense</li>
+			<li><b>'D' : </b>Rotate The camera about Y-axis in Clockwise Sense</li>
+			<li><b>'Q' : </b>Rotate The camera about Z-axis in Counter-Clockwise Sense</li>
+			<li><b>'E' : </b>Rotate The camera about Z-axis in Clockwise Sense</li>
+			<li><b>'O' : </b>Move The camera upwards</li>
+			<li><b>'L' : </b>Move The camera downwards</li>
+			<li><b>';' : </b>Move The camera Right</li>
+			<li><b>'K' : </b>Move The camera Left</li>
+			<li><b>'=' : </b>Move The camera BackWards</li>
+			<li><b>'-' : </b>Move The camera Inwards</li>
+			<li><b>'R' : </b>Reset The camera to the initial position</li>
+		
+		
+		
+		</ul>
+		
+		<h2>Implementaion Issues</h2>
+		<ul>
+			<li>Importing complex shapes and objects from Blender leads to memory overflow.
+				It also increases the time complexity of the program because of having to draw many polygons. Thus, we have imported only simple and basic objects.
+			
+			</li>
+			<li>Due to lack of shadows and lighting, the solid color given to the objects makes them look like
+				one polygon instead of a 3D object. You may notice this in the Podium which looks like a 2d Outline of an object as it
+				loses its identity as a 3d podium.
+			</li>
+			<li>
+				The shape of the floor of the Auditorium is trapezium due to which we couldn't arrange Chairs properly one behind the other and mantain uniformity.
+				This lead to the chair arrangement looking visually unaesthetic.
+			
+			</li>
+			
+		</ul>
+	 
+		<h2>Some Screenshots of The Auditorium</h2>
+		
+		<div class="row">
+			<div class="column">
+				<h4 align ="Left" >Mic</h4>
+				<img src="MIC.png" alt="Mic of the Audi" class="c1">
+			
+			</div>
+			
+			<div class="column">
+				<h4 align ="center-left" >Speaker</h4>
+				<img src="Speaker.png" alt="Speakers of the Audi" class="c1">
+				
+				
+			
+			</div>
+			<div class="column">
+				<h4 align ="Right-center" >Podium</h4>
+				<img src="Podium.png" alt="Podium of the Audi" class="c1">
+			
+			</div>
+			
+		
+		
+		</div>
+		
+		<div class="row">
+			
+			<div class="column">
+				<h4 align ="left" >Seats</h4>
+				<img src="Seats.png" alt="Seats of the Audi" class="c2">
+			
+			</div>
+			
+			<div class="column">
+				<h4 align ="Right" >Stage</h4>
+				<img src="Stage.png " alt="Stage of the Audi" class="c2">
+			
+			</div>
+		
+		
+		</div>
+		
+		<br/>		
+		
+		
+		
+	 
+	 
+	 
+	</body>
+	
+
+
+</html>

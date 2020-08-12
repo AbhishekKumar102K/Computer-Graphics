@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+	<title> COMPUTER GRAPHICS ASSIGNMENT 1 </title>
+	<style>
+	
+	table, th, td {
+	border: 1px solid black;
+	}
+	th{
+		text-align :center;
+	}	
+	img{
+		width : 50 px;
+		height: 50 px;
+	}
+	.center{
+		text-align: center;
+		display : block;
+	}
+	.column {
+		float : left;
+		width : 25%;
+		padding : 125px;
+	}
+	.row ::after {
+		content :"";
+		clear : both;
+		display : table;
+
+	}
+
+	</style>
+
+	</head>
+	
+	<body text="black" >
+		<div id="header" style="background-color : white;">
+			<h1 align="center">COMPUTER GRAPHICS ASSIGNMENT 1</h1>
+			<p align="center">BY</p>
+			<p align="center">ABHISHEK KUMAR</p>
+			<p align="center">SHUBHAM ASOPA</p>
+			<p align="center"><h2 align="center"><u>IMPLEMENTATION OF A TIDY TREE DRAWING USING TR ALGORITHM</u></h2></p>
+
+			<h2>Introduction</h2>
+			<p>
+				For this assignment, we used lines(to draw the edges) and circles(to represent a node) to draw the binary tree. For this, we used the <i>Bresenham's Midpoint Line and circle drawing algorithm</i>.
+				We modified the circle drawing algorithm by adding an offset to both the x and y coordinate to draw the circles at any other location than the origin.
+				This program has two different ways of taking input from the user. <br />
+				We have implemented TR algorithm after going through the given research paper. It contains two functions, namely <b>setup()</b> and <b>Petrify()</b>. <br />
+				The <b>setup()</b> function assigns threads and offsets to each node and the <b>Petrify()</b> function assigns X-coordinate to each node.
+			</p>
+			<br />
+
+			<h2>General Discussion on the Algorithm</h2>
+			<p>
+				The <b>WS Algorithm (Tidy drawing)</b> was successful in drawing a tidy tree but it failed to form a tree having minimum width. Moreover, it was
+				assymetric and hence, aesthetically unpleasing.<br />
+				On the other hand, the <b>TR Algorithm (Tidier drawing)</b> which we have implemented in this assignment successfully draws a Tidy Tree as well as
+				maintains minimum width and symmetry, hence, produces an aesthetically pleasing binary tree.<br />
+				This algorithm starts by superimposing two subtrees at their roots and then moving them apart till a minimum separation is maintained. For keeping track of the
+				contours and the separation between them, we use threads which are essentially pointers that point to the next node on the contour.<br />
+				The setup() function assigns relative positionings to each node during a postorder traversal and assigns these threads.<br />
+				The petrify() function changes the relative coordinates to absolute coordinates.
+
+
+			</p>
+			<br />
+
+			<h2>Issues in Coding</h2>
+			<p>
+				<ul>
+
+					<li>
+						As n gets large, circles become very small and almost disappear. For n>2000, it draws a straight line instead of tree, as <i>'sx'</i>(scaling factor)
+						becomes too small or almost 0.
+					</li>
+					<li>
+						To clip the lines that are inside the circles, we assumed that the change in x and y will be rcos45 i.e r/1.414, where r is the radius of the circle
+						So this leads to the lines not seeming to pass through the centres of the two nodes it is connecting.
+						For this we need to do floating point calculation in each recursive call, which causes the program to crash.
+					</li>
+					<li>
+						The y coordinates (levels) assigned to each node during pre calculation are positive(0, 1, 2... so on). But since a binary tree is an inverted tree
+						in which the y coordinate of the topmost node should be maximum, we had to multiply the y coordinate by -1.
+					</li>
+				</ul>
+
+
+
+			</p>
+
+
+			<h2>Experimental Results</h2>
+			
+			
+			<div class="row">
+				
+				<div class="column">
+					<h3> Complete Binary Tree with n = 12</h3>
+
+					<img src='1.png'style= " width : 500px; height : 300px;">
+				
+				</div>
+				<div class="column">
+					<h3> Complete Binary Tree with n = 62</h3>
+					<img src='2.png' style="width : 500px; height : 300px;">
+				
+				</div>
+			<div class="row">
+				
+				<div class="column">
+					<h3> Complete Binary Tree with n = 31</h3>
+
+					<img src='4.png'style= " width : 500px; height : 300px;">
+				
+				</div>
+				<div class="column">
+					<h3> Complete Binary Tree with n = 432</h3>
+					<img src='5.png' style="width : 500px; height : 300px;">
+				
+				</div>
+			<div class="row">
+				
+				<div class="column">
+					<h3> User Defined Binary Tree (1)</h3>
+
+					<img src='3.png'style= " width : 500px; height : 300px;">
+				
+				</div>
+				<div class="column">
+					<h3> User Defined Binary Tree (2)</h3>
+					<img src='6.png' style="width : 500px; height : 300px;">
+				
+				</div>
+			<div class="row">
+				
+				<div class="column">
+					<h3> User Defined Binary Tree (3)</h3>
+
+					<img src='7.png'style= " width : 500px; height : 300px;">
+				
+				</div>
+				<div class="column">
+					<h3> User Defined Binary Tree (4)</h3>
+					<img src='8.png' style="width : 500px; height : 300px;">
+				
+				</div>
+			<div class="row">
+				
+				<div class="column">
+					<h3> User Defined Binary Tree (5)</h3>
+
+					<img src='9.png'style= " width : 500px; height : 300px;">
+				
+				</div>
+				<div class="column">
+					<h3> User Defined Binary Tree (6)</h3>
+					<img src='10.png' style="width : 500px; height : 300px;">
+				
+				</div>
+				
+			</div>
+
+			<br/>
+
+			<h2>Timing Analysis</h2>
+			 <p>
+				 Since each node is being accessed once in the recursive setup() function and as mentioned in the given 
+				 research paper, the body of the while loop is executed n(T)-h(T) times (n(T)-> number of nodes, h(T) -> height of the tree)
+				 , the overall function is linear in n(T) i.e. The number of the nodes in the tree.<br/>
+				 Thus, the time complexity of the algorithm is O(n(T)).<br/>
+				 Even during multiple runs of our program, we noticed increasing time of execution as the number of nodes increased.
+				 This was supported by printing the time taken in each execution using the clock function.
+			 </p>
+
+
+				<!---	<h2 align="center">Analysis of Tidier Algorithm</h2>
+		<p>A balanced tree of 'n' nodes gave the following timings.</p>
+		<table style="width:40%">
+			<tr>
+				<th>Number of Nodes</th>
+				<th>Time Execution for Tidier</th>
+				<th>Time taken to draw Tree</th>
+				<th>Memory Usage (MB)</th>
+			</tr>
+			<tr>
+				<td align="center">X</td>
+				<td align="center">Y</td>
+				<td align="center">50</td>
+				<td align="center">50</td>
+			</tr>
+			<tr>
+				<td align="center">X</td>
+				<td align="center">Y</td>
+				<td align="center">50</td>
+				<td align="center">50</td>
+			</tr>
+			<tr>
+				<td align="center">X</td>
+				<td align="center">Y</td>
+				<td align="center">50</td>
+				<td align="center">50</td>
+			</tr>
+			<tr>
+				<td align="center">X</td>
+				<td align="center">Y</td>
+				<td align="center">50</td>
+				<td align="center">50</td>
+			</tr>
+			<tr>
+				<td align="center">X</td>
+				<td align="center">Y</td>
+				<td align="center">50</td>
+				<td align="center">50</td>
+			</tr>
+			<tr>
+				<td align="center">X</td>
+				<td align="center">Y</td>
+				<td align="center">50</td>
+				<td align="center">50</td>
+			</tr>
+		</table>
+		<br /><br />
+		<br />
+		<p>As we see in the graph, the time is linear with the number of nodes. Hence the time complexity is O(n).</p>
+		<br />-->
+
+
+
+</body>
+</html>

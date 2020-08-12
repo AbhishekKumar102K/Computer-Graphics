@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Computer Graphics Project</title>
+		<style>	
+			body{
+				font-size :150:
+				background-color : light blue;
+			}
+			p{
+				font-size=150%;
+			}
+			.center{
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				width: 25%;
+			}
+			/* Three image containers (use 25% for four, and 50% for two, etc) */
+			.column {
+				float: left;
+				margin-left: 290px;
+				margin-right: auto;
+				width: 20%;
+				height: 20%;
+				padding: 5px;
+			}
+
+			/* Clear floats after image containers */
+			.row::after {
+				content: "";
+				clear: both;
+				display: table;
+			}
+		</style>
+		
+	</head>
+	
+	<body text='black'>
+	<h1 align ="center" >COMPUTER GRAPHICS PROJECT</h1>
+	<H2 ALIGN="CENTER"><U>Documentation Of The Algorithm</U></H2>
+		<p align="center" >BY</p>
+		<p align="center" >ABHISHEK KUMAR</p>
+		<p align="center" >SHUBHAM ASOPA</p>
+		<p align="center" ><h2 align ="center"><u>Radiosity (Modelling the interaction of light between diffuse surfaces)</u></h2></p>
+		
+		<h2 align ="left">Summary of Algorithm</h2>
+		<P>This algorithm computes the radiosity of each face using the <i>Hemicube method</i>(for calculating the form-factor).
+			It then interpolates the vertex colors by taking the average across all the neighbouring faces
+			to give an aesthetically pleasing scene.
+		</P>
+		<h2 align ="left">Description of Algorithm</h2>
+		<p>
+			The file parser function loads the object file and stores it in an array. It calculates normal vector of each face
+			by using the vertex coordinates. After a given environment is broken down into a set of polygons, energy 
+			exchange between all pairs of elements are evaluated. This evaluation is called Form Factor calculation.
+			
+			We used <i>Hemicube method</i> to calculate the form factor for each pair of faces instead of using the <i>Double Integration Method</i>.
+			<ul>
+			<li>
+			<h3>Hemicube Method</h3>
+			<p>
+				For each face we imagined a unit hemicube with center coinciding with the centroid of the face.
+				We then create a view port as each of the five faces of the hemicube and thereby, render the entire scene
+				on to the viewport. The form-factor is given by the ratio of the area of the hemicube
+				that is lightened by the face to the total area of the hemicube (3*a*a).
+			</p>
+			<p>
+				Instead of going by the method mentioned in the paper i.e. <i>The Double Integration Method</i> we
+				used the <i>Hemicube method</i> because the evaluation of form factor in the former method
+				is numerically complex and computationally demanding. Thus, it is a high cost operation.
+				Also, the form factor calculation between two patches has to take into account any intervening
+				patches. This is made possible using the hemicube method.
+			</p></li><br/>
+			<li><h3>Calculation Of The Radiosities</h3>
+			<p>
+				For each face we calculate its radiosity using the formula given in the research paper by iterating 
+				over all the faces which is basically the sum of emission terms and the product of corresponding 
+				form factor, reflectivity and radiosity.
+			</p></li><br/>
+			<img src="Equation.png" alt="Equation of the Radiosity" class ="center">
+			<li><h3>Interpolation</h3>
+			<p>
+				If we just display the faces with the final radiosity of each face as its 
+				color value then the scene looks like it is composed of differently coloured 
+				triangular faces rather than a smooth surface.<br/>
+				To get rid of this, we used a linear interpolation algorithm.</li><br/>
+				<h4 align ="center">Here's how it looks without the interpolation.</h4><br/>
+				<div class="row">
+					<div class="column">
+						<img src="WIroom.jpeg" style="width:100%">
+					</div>
+					<div class="column">
+						<img src="WIopen.jpeg" style="width:100%">
+					</div>
+ 
+				</div>
+				<h4 align ="center">Here's how it looks with the interpolation.</h4><br/>
+				<div class="row">
+					<div class="column">
+						<img src="Iroom.jpeg" style="width:100%">
+					</div>
+					<div class="column">
+						<img src="Iopen.jpeg" style="width:100%">
+					</div>
+ 
+				</div>
+				<br/>
+				<b>The way this function works is by assigning each vertex a color value which
+				is equal to the average of the radiosity values of its neighboring faces.
+				Now all the three vertices of each face will have different color values
+				which produces a gradient of the resulting colours across the faces, thereby 
+				producing a smoother color transition.</b>
+			
+			</p>
+			<br/>		
+		</p></ul>
+		<h2>Implementation Of The Code</h2>
+		<ul>
+			<li>
+				<b>Loading the object file</b> : We read the object file of the scene that we created using <u>Blender</u>.<br/>
+			<b>*</b> For each new object in the scene, we set its reflectivity (colour) and emissivity (Light emission intensity)
+			 , being represented as a triplet of RGB values, as per our needs. This determines how the object will
+			 look like in the final scene.	<br/>
+			<b>*</b> For each vertex in the object file, we add it to a vector (vertices) which stores triplets of the XYZ coordinates
+			 of each vertex. <br/>
+			<b>*</b> For each face in the object file, we add it to a vector (faces) that stores vertex indices
+			 being used to defined the face. Since all faces are triangular i.e. having three vertices, each index of the
+             faces vector contains a triplet of the vertex indices. <br/>
+			 The reflectivities and emission value for each face is also stored in respective vectors.
+			</li><br/>
+			<li>
+				<b>Calculating the form factors</b> :This was perhaps the most time consuming part of the entire project. While trying to figure out a method
+			to evaluate the double integrals, we came across the hemicube method (that was published in SIGGRAPH
+			in the subsequent year) which reduces the computation required for calculating the form factors. It also
+			exploits the z-buffer hardware to take care of intervening patches, that couldn't be done using the double integral
+			method.
+			Thus due to the reduced computation time, we were able to create a scene with a larger number of subdivisions(faces)
+			and thus a higher resolution.<br/>
+			Steps for calculating form factor using hemicube method:<br/>
+			<b>*</b> For each face, we first set up a unit hemicube with its base centre coinciding with the centroid of the face.
+			Using the face2pixel function, each face index is mapped to a unique non-(0,0,0) RGB value. Then the entire scene 
+			is rendered on to each face of the hemicube with the color value from the encoding function.<br/>
+			<b>*</b> Then we count all those pixels that are lit(having color non-(0,0,0)). Decoding the color of the pixel gives us 
+			the face that resulted in the pixel getting lit.<br/>
+			<b>*</b> Repeat this for all the faces of the hemicube and count the total number of pixels lit by each face.
+			Divide this number(for each face) by the total number of pixels on the hemicube (that is 3*a*a, where a is the resolution
+			of the hemicube) and we get the form factor.<br/>
+			</li><br/>
+			
+			<li>
+				<b>Calculating the radiosities and Linear Interpolation </b>: The radiosities are calculated using the same
+				formula as given in the research paper (i.e. the Energy Equation)
+				This includes taking the sum of products of radiosity, form factor and the 
+				reflectivity of all the faces in the scene and adding it to the emission value of that face.
+				Thus, we have the final calculated radiosities of all the faces.
+				Next we use linear interpolation, as described above, to smoothen out the colors.
+				This is done by assigning a color value to a vertex which is equal to the average of all the radiosity values
+				of all the faces it is a part of.
+			</li><br/>
+		</ul>
+		<h2>Implementation Issues</h2>
+			<p>
+			To implement the paper, we divided the above mentioned algorithm into three main steps:<br/>
+			<ul>
+				<li>Since the radiosity array is filled in a bottom up manner (in increasing face index),
+				no face affects the radiosity of a face placed before it in the array. This 
+				led to implementation errors. To resolve this, we had to call the calculate radiosity
+				function twice so that each face could interact and affect the radiosity of the other</li><br/>
+				<li>
+					Calculation of the form factors takes a lot of time which varies quadratically with 
+					the number of faces. The scene we created using blender has 4258 faces and it takes 
+					roughly a minute to compute the form factors. Thus, we weren't able to figure out a way
+					to reduce the time down to a few seconds
+				
+				</li><br/>
+				<li>
+					For the triple.h header file, we had previously defined the functions in the header file 
+					itself, which led to unexplained errors in the code. Making the functions inline seemed to 
+					resolve the issue.
+				
+				</li><br/>
+				
+			</ul>
+			</p>
+			
+		<h2>Time Complexity</h2>
+		<p>
+		<ul>
+			<li>Since the form factor vector is 2D a vector, we have to compute form factors 
+			for every pair of faces that exists in the scene. We also rasterize the entire 
+			scene to the faces of the hemicube which takes linear time for all faces.
+			Thus, Time Complexity of the function is O(n^2) where n is the number of faces in the scene.</li><br/>
+
+			<li>For the double intergation method, we have to further divide the perimeter of each face 
+			into segments for evaluating the integral. <br/>
+			So, if there are n faces and each face perimeter is being divided m segments, the overall 
+			time complexity is O(n^2 m^2) This can grow to O(n^4) if the number of faces is equal to the 
+			number of segments.</li><br/>
+		</ul>
+
+			Hence, we can notice significant improvement in the efficiency of calculating form factors
+			using the hemicube method as compared to the method mentioned in the paper.
+		</p>
+			
+			
+			
+		<h2>Results</h2>
+			We have successfully implemented the algorithm for calculation of radiosities and extrapolated the knowledge
+			to create more than what the paper offered.<br/>
+			Here are some insights on the algorithm from what we observed :<br/>
+		<ul>
+		
+			<li>
+				<b>Color Bleeding</b> : Through this phenomenon we tend to see shades of color from one object on to
+				the other objects. This is not observed in case of the standard lighting model in OpenGL. Thus, we were
+				able to render realistic looking scenes.<br/>
+				
+				<div class="row">
+					<div class="column">
+						<img src="colorbleeding.jpeg" style="width:100%">
+					</div>
+					<div class="column">
+						<img src="colorbleeding2.jpeg" style="width:100%">
+					</div>
+ 
+				</div>	
+			</li><br/>
+			
+			<li>
+				<b>Absence of OpenGL lights</b> : A peculiar feature of using the radiosity approach is that we don't 
+				have to use a separate light model. Instead each face has it's own emission and reflectivity values
+				which dictates it's behaviour in the final scene.
+			
+			</li><br/>
+			<h4 align ="center">With and Without Radiosity Images</h4>
+			<div class="row">
+					<div class="column">
+						<img src="WithRadiosity.jpeg" style="width:100%">
+					</div>
+					<div class="column">
+						<img src="WithoutRadiosity.jpeg" style="width:100%">
+					</div>
+ 
+				</div>	
+			
+		
+		</ul>
+
+</html>
