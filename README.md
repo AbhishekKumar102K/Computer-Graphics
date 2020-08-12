@@ -1,8 +1,8 @@
 # Computer-Graphics
 Contains Computer Graphics projects and assignments using C++ and OpenGL Glut libraries
 
-For each of the below mentioned projects(except Bezier curve), you can find an HTML file containing an in depth analysis of the algorithm used, issues in coding and the results.
-The path for each of the file looks like 
+For each of the below mentioned projects(except Bezier curve), you can find an HTML file(in the project folder) containing an in depth analysis of the algorithm used, issues in coding and the results.
+
 
 ## IMPLEMENTATION OF A TIDY TREE DRAWING USING TR ALGORITHM
 
