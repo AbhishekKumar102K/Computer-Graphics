@@ -1,7 +1,10 @@
 # Computer-Graphics
 Contains Computer Graphics projects and assignments using C++ and OpenGL Glut libraries
 
-## IMPLEMENTATION OF A TIDY TREE DRAWING USING TR ALGORITHM**
+For each of the below mentioned projects(except Bezier curve), you can find an HTML file containing an in depth analysis of the algorithm used, issues in coding and the results.
+The path for each of the file looks like 
+
+## IMPLEMENTATION OF A TIDY TREE DRAWING USING TR ALGORITHM
 
 **Overview**
 
@@ -45,4 +48,9 @@ This algorithm computes the radiosity of each face using the Hemicube method(for
 <img src = "https://github.com/AbhishekKumar102K/Computer-Graphics/blob/master/Radiosity%20Project/Documentation%20of%20Results/Iopen.jpeg">
 
 <img src = "https://github.com/AbhishekKumar102K/Computer-Graphics/blob/master/Radiosity%20Project/Documentation%20of%20Results/Iroom.jpeg">
+
+
+## Team Members:
+1. Abhishek Kumar
+2. Shubham Asopa (https://github.com/sammyasopa)
 
